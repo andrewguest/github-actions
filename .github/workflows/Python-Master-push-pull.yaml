@@ -45,8 +45,8 @@ jobs:
       # Using another Github-provided action to setup a Python environment within the runner that is performing this test.
       - uses: actions/setup-python@v2
       # Specify the version of Python we want to use
-      - with:
-        python-version: ${{ matrix.python-version }}
+        with:
+          python-version: ${{ matrix.python-version }}
       # Another name section
       - name: "Install dependencies"
       # Steps for the runner to run
