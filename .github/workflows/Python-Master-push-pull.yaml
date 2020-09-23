@@ -42,15 +42,15 @@ jobs:
       # Give this step a "name" by substituting the variable: ${{ matrix.python-version }}
       # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsname
       - name: Set up Python ${{ matrix.python-version }}
-      # Using another Github-provided action to setup a Python environment within the runner that is performing this test.
+        # Using another Github-provided action to setup a Python environment within the runner that is performing this test.
         uses: actions/setup-python@v2
         # Specify the version of Python we want to use
         with:
           python-version: ${{ matrix.python-version }}
       # Another name section
       - name: "Install dependencies"
-      # Steps for the runner to run
-      # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsrun
+        # Steps for the runner to run
+        # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsrun
         run: |
           # Update "pip" to the newest version
           python -m pip install --upgrade pip
@@ -62,7 +62,7 @@ jobs:
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
       # Another naming section
       - name: Lint with flake8
-      # Here we're running the flake8 specific steps to lint our program.
+        # Here we're running the flake8 specific steps to lint our program.
         run: |
           # stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -70,13 +70,5 @@ jobs:
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
       # The last name section.
       - name: Test with pytest
-      # Finally, run the actual pytest tests.
+        # Finally, run the actual pytest tests.
         run: pytest -v
-      - if: failure()
-      - uses: JasonEtco/create-an-issue@v2
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          asignees: andrewguest
-          title: Github workflow failed
-          labels: bug, test-failure
