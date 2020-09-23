@@ -43,15 +43,15 @@ jobs:
       # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsname
       - name: Set up Python ${{ matrix.python-version }}
       # Using another Github-provided action to setup a Python environment within the runner that is performing this test.
-      - uses: actions/setup-python@v2
-      # Specify the version of Python we want to use
+        uses: actions/setup-python@v2
+        # Specify the version of Python we want to use
         with:
           python-version: ${{ matrix.python-version }}
       # Another name section
       - name: "Install dependencies"
       # Steps for the runner to run
       # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idstepsrun
-      - run: |
+        run: |
           # Update "pip" to the newest version
           python -m pip install --upgrade pip
 
@@ -63,7 +63,7 @@ jobs:
       # Another naming section
       - name: Lint with flake8
       # Here we're running the flake8 specific steps to lint our program.
-      - run: |
+        run: |
           # stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
@@ -71,4 +71,4 @@ jobs:
       # The last name section.
       - name: Test with pytest
       # Finally, run the actual pytest tests.
-      - run: pytest -v
+        run: pytest -v
