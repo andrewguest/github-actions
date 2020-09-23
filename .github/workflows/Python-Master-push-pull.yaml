@@ -72,3 +72,11 @@ jobs:
       - name: Test with pytest
       # Finally, run the actual pytest tests.
         run: pytest -v
+      - if: failure()
+      - uses: JasonEtco/create-an-issue@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          asignees: andrewguest
+          title: Github workflow failed
+          labels: bug, test-failure
