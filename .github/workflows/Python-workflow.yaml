@@ -1,6 +1,6 @@
 # The name of the workflow (or "action") that will be displayed on the repo's
 #   actions page
-name: Python master push-pull action
+name: Python workflow
 
 # What change, within this Github repo, is going to cause this action to happen.
 # For example, here any "push" or "pull request" on the "master" branch will
@@ -19,6 +19,8 @@ on:
 # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobs
 jobs:
   build:
+    # Give this job a nicer name
+    name: Build for Python 3.5 to 3.8
     # The type of machine to run this job on.
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idruns-on
     runs-on: ubuntu-latest
@@ -68,15 +70,7 @@ jobs:
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-  # Define a second "job" of "test"
-  # This will be the job responsible for performing all of our PyTest tests
-  test:
-    # The "needs" keyword means that this job requires another job ("build") to
-    #   finish before it can start.
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
       # The last name section.
-      - name: Test with pytest
+      - name: Run pytest tests
         # Finally, run the actual pytest tests.
         run: pytest -v
