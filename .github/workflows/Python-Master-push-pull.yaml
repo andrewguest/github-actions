@@ -71,6 +71,9 @@ jobs:
   # Define a second "job" of "test"
   # This will be the job responsible for performing all of our PyTest tests
   test:
+    # The "needs" keyword means that this job requires another job ("build") to
+    #   finish before it can start.
+    needs: build
     runs-on: ubuntu-latest
     steps:
       # The last name section.
