@@ -10,9 +10,11 @@ on:
   push:
     branches:
       - master
+      - main
   pull_request:
     branches:
       - master
+      - main
 
 # List of jobs that run as part of this workflow. Each job run independently of the
 #   the others and in it's own virtual environment.
