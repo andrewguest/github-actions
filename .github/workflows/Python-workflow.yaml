@@ -10,9 +10,11 @@ on:
   push:
     branches:
       - master
+      - main
   pull_request:
     branches:
       - master
+      - main
 
 # List of jobs that run as part of this workflow. Each job run independently of the
 #   the others and in it's own virtual environment.
@@ -31,10 +33,10 @@ jobs:
     strategy:
       matrix:
         python-version:
-          - 3.5
           - 3.6
           - 3.7
           - 3.8
+          - 3.9
     # "steps" defines the actual testing steps that will be performed.
     # https://docs.github.com/en/actions/reference/workflow-syntax-for-github-actions#jobsjob_idsteps
     steps:
