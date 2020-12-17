@@ -1,6 +1,6 @@
 from random import randint
 
-from counter import add
+from app.counter import add
 
 
 def test_counter():
