@@ -75,4 +75,4 @@ jobs:
       # The last name section.
       - name: Run pytest tests
         # Finally, run the actual pytest tests.
-        run: pytest -v
+        run: pytest python-example/tests -v
