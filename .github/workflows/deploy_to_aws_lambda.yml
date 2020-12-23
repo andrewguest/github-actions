@@ -1,0 +1,54 @@
+name: Deploy to AWS Lambda
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  # build and test the Python code before deploying to AWS
+  build:
+    name: Build and Test before deploying to AWS
+    runs-on: ubuntu-20.04
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup Python 3.8
+        uses: actions/setup-python@v2
+        with:
+          python-version: "3.8"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install flake8 pytest
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+      - name: Lint with flake8
+        run: |
+          flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+      - name: Run pytest tests
+        run: pytest aws-auto-deploy/tests -v
+
+  # If the tests passed, then deploy the new code to AWS Lambda
+  deploy_source:
+    # requires the "build" job above to be completed before this job can start
+    needs: build
+    name: deploy lambda from source
+    runs-on: ubuntu-20.04
+    steps:
+      # configure the AWS credentials
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      # deploy the new lambda function
+      - name: checkout source code
+        uses: actions/checkout@v2
+      - name: default deploy
+        uses: appleboy/lambda-action@master
+        with:
+          aws_access_key_id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_access_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws_region: ${{ secrets.AWS_REGION }}
+          function_name: autoDeployedFromGithub
+          source: lambda_function.py
