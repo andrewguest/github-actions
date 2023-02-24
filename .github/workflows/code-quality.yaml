@@ -1,3 +1,4 @@
+name: Code formatting checks
 on:
   push:
     branches: [main, master]
