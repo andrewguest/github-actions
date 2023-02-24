@@ -1,0 +1,35 @@
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+jobs:
+  python-black:
+    name: Format code with Black
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run black formatter checks
+        uses: psf/black@stable
+        with:
+          src: "./"
+          options: "--check --diff --color"
+          jupyter: true
+
+  python-flake8:
+    name: Run Flake8 checks
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Python environment
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Run Flake8 formatter checks
+        uses: py-actions/flake8@v2
