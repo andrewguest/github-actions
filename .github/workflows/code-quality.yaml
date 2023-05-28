@@ -28,7 +28,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Run isort formatter checks
-        uses: isort/isort-action@v1.0.0
+        uses: isort/isort-action@v1.1.0
         with:
           configuration: "--check --diff --color"
           requirementsFiles: "requirements.txt"
